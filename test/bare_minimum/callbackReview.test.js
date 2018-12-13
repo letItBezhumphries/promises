@@ -9,7 +9,7 @@ describe('Callback review', function() {
 
     it('should accept a callback as its last argument', function(done) {
       pluckFirstLineFromFile(__dirname + '/../files/file_to_read.txt', function() {
-        // If this asserion gets called, the callback was invoked correctly
+        // If this assertion gets called, the callback was invoked correctly
         // Otherwise, this test will timeout after 2000ms
         expect(true).to.equal(true);
         done();
