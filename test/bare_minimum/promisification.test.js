@@ -15,7 +15,7 @@ describe('Promisification', function() {
     // and we preserve our API rate limits.
     var githubAPI = nock('https://api.github.com');
 
-    it('should return a promise', function() {
+    it.only('should return a promise', function() {
       githubAPI.get('/users/someRealUser').reply(200);
 
       // Must return a Bluebird promise. ES6 promise won't work here
@@ -40,7 +40,7 @@ describe('Promisification', function() {
 
     it('should make any errors available in the `catch` block', function(done) {
       githubAPI.get('/users/someNonExistingUser').reply(200, {
-        message: 'Not Found'
+        message: 'Failed to get GitHub profile'
       });
 
       getGitHubProfileAsync('someNonExistingUser')
