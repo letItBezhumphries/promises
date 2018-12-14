@@ -18,12 +18,12 @@ var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
   return pluckFirstLineFromFileAsync(readFilePath)
     .then(getGitHubProfileAsync)
     .then(profile => {
-      console.log('basicChaining:', profile);
+      console.log('FROM BASIC CHAINING PROFILE LOG:', profile);
       return writeFileAsync(writeFilePath, JSON.stringify(profile));  
     })
     .catch(error => {
       console.log('Error', error);
-    });  
+    }).done();  
 };
 
 // Export these functions so we can test them
