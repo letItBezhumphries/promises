@@ -8,26 +8,27 @@
  * HINT: We exported some similar promise-returning functions in previous exercises
  */
 
-var fs = require('fs');
 var Promise = require('bluebird');
+var fs = Promise.promisifyAll(require('fs'));
 var pluckFirstLineFromFileAsync = require('./promiseConstructor').pluckFirstLineFromFileAsync;
 var getGitHubProfileAsync = require('./promisification').getGitHubProfileAsync;
-var writeFileAsync = Promise.promisify(fs.writeFile);
 
 var fetchProfileAndWriteToFile = function(readFilePath, writeFilePath) {
   return pluckFirstLineFromFileAsync(readFilePath)
     .then(getGitHubProfileAsync)
-    .then(profile => {
-      console.log('FROM BASIC CHAINING PROFILE LOG:', profile);
-      return writeFileAsync(writeFilePath, JSON.stringify(profile));  
-    })
-    .catch(error => {
-      console.log('Error', error);
-    }).done();  
+    .then((profile, reject) => {
+      if (profile) {
+        return fs.writeFileAsync(writeFilePath, JSON.stringify(profile), 
+          (err) => {
+            reject(err); 
+          }).catch((error) => {
+          console.log('Error');
+        });
+      }
+    });
 };
 
 // Export these functions so we can test them
 module.exports = {
   fetchProfileAndWriteToFile: fetchProfileAndWriteToFile
-   
 };

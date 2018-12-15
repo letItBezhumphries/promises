@@ -19,7 +19,7 @@ var getGitHubProfileAsync = function(profile, callback) {
     request.get(options, function(err, response, body) {
       console.log('BODY', body);
       if (err) { 
-        throw reject(callback(err)); 
+        return reject(err, null); 
       } else { 
         resolve(callback(null, body));
       }
